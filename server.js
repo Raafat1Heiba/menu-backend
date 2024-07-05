@@ -76,6 +76,12 @@ const multerMiddleware = new MulterMiddleware();
 mainRouter.use("/user", userRouter(userController, authMiddleware));
 mainRouter.use("/authentication", authRouter(authController, authMiddleware));
 
+/* --------------------- */
+
+app.use("/api/v1", mainRouter);
+
+app.use(errorMiddleware);
+
 server.listen(port, () => {
   console.log(`Listening on port ${port}`);
 });

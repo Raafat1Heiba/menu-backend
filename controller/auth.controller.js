@@ -60,7 +60,7 @@ class AuthController {
     user = await this.authRepository.addUser(body);
 
     const token = jwt.sign(
-      { _id: user._id, role: type.name },
+      { _id: user._id, role: user.typeId },
       process.env.JWT_SECRET_KEY,
       { expiresIn: "6h" }
     );
