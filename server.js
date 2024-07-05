@@ -64,7 +64,7 @@ const userController = new UserController(
   authRepository,
   stateManager
 );
-
+/** */
 /* Middlewares Instances */
 const authMiddleware = new AuthMiddleware(authRepository);
 // const paginationMiddleware = new PaginationMiddleware();
