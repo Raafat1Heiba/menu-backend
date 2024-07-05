@@ -12,6 +12,7 @@ const { instrument } = require("@socket.io/admin-ui");
 const mainRouter = express.Router();
 const port = process.env.PORT || 3000;
 const StateManagerUser = require("./statemanagement/stateUser");
+const StateManagerAuth = require("./statemanagement/stateAuth.js");
 
 const firebaseConfig = require("./config/firebase.config.js");
 const { initializeApp } = require("firebase/app");
@@ -48,27 +49,28 @@ const UserController = require("./controller/user.controller.js");
 
 /* Middlewares */
 const AuthMiddleware = require("./middlewares/auth.middleware.js");
-// const PaginationMiddleware = require("./middlewares/pagination.middleware");
-// const MulterMiddleware = require("./middlewares/multer.middleware");
-// const errorMiddleware = require("./middlewares/error.middleware.js");
+const PaginationMiddleware = require("./middlewares/pagination.middleware");
+const MulterMiddleware = require("./middlewares/multer.middleware");
+const errorMiddleware = require("./middlewares/error.middleware.js");
 
 /* Repositories Instances */
 const authRepository = new AuthRepository();
 const userRepository = new UserRepository();
 
 /* Controllers Instances */
-const authController = new AuthController(authRepository);
-const stateManager = new StateManagerUser();
+const stateManagerUser = new StateManagerUser();
+const stateManagerAuth = new StateManagerAuth();
+const authController = new AuthController(authRepository, stateManagerAuth);
 const userController = new UserController(
   userRepository,
   authRepository,
-  stateManager
+  stateManagerUser
 );
-/** */
+
 /* Middlewares Instances */
 const authMiddleware = new AuthMiddleware(authRepository);
-// const paginationMiddleware = new PaginationMiddleware();
-// const multerMiddleware = new MulterMiddleware();
+const paginationMiddleware = new PaginationMiddleware();
+const multerMiddleware = new MulterMiddleware();
 
 /* --------------------- */
 mainRouter.use("/user", userRouter(userController, authMiddleware));
