@@ -1,4 +1,4 @@
-const { mongoose } = require("mongoose");
+const mongoose = require("mongoose");
 
 const userSchema = mongoose.Schema({
   fullName: {
@@ -14,7 +14,6 @@ const userSchema = mongoose.Schema({
     minLength: 3,
     maxLength: 255,
   },
-
   password: {
     type: String,
     required: true,
@@ -46,6 +45,12 @@ const userSchema = mongoose.Schema({
     maxLength: 255,
     default: null,
   },
+  permissions: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Permission",
+    },
+  ],
 });
 
 const UserModel = mongoose.model("User", userSchema);
