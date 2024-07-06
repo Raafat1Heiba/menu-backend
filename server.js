@@ -30,6 +30,7 @@ app.use(
       "http://localhost:5173",
       "http://localhost:5174",
       "https://admin.socket.io",
+      "http://localhost:4200",
     ],
     credentials: true,
   })
